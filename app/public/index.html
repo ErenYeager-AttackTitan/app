@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow" />
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ErenYeager-AttackTitan/jwplayer/jw.js"></script>
+
+    <style>
+        /* Basic styling to make the player responsive */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Hide the content if the page is embedded in an iframe */
+        body:has(iframe) {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Wrap the player container */
+        .wrap {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #player {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrap">
+        <div id="player"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoFile = urlParams.get("video"); // Get video filename from URL query
+
+            if (!videoFile) {
+                alert("No video selected!");
+                return;
+            }
+
+            // Setup the JWPlayer instance
+            const playerInstance = jwplayer("player").setup({
+                controls: true,
+                displaytitle: false, // No title in embedded mode
+                displaydescription: false, // No description in embedded mode
+                abouttext: "AnimeZia",
+                aboutlink: "https://animezia.com",
+                autostart: true,
+                skin: { name: "netflix" },
+                playlist: [{
+                    title: "Now Playing",
+                    description: "HD Streaming",
+                    sources: [{ "file": `${videoFile}` }]
+                }]
+            });
+
+            playerInstance.on("ready", function () {
+                console.log("JW Player Ready");
+            });
+        });
+    </script>
+
+</body>
+
+</html>
+
+  
